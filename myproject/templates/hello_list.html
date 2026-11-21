@@ -1,0 +1,35 @@
+<!-- 这里是顶部导航栏区域 -->
+<h1>社团活动</h1>
+
+<form method="get" action="{% url 'hello' %}" style="margin-bottom: 20px;">
+    <input type="text" name="q" value="{{ query }}" placeholder="搜索活动标题或地点...">
+    <button type="submit">搜索</button>
+</form>
+{% if user.is_authenticated %}
+    <a href="{% url 'add' %}">添加活动</a>
+    <a href="{% url 'logout' %}">退出</a>
+{% else %}
+    <a href="{% url 'login' %}">登录</a>
+    <a href="{% url 'register' %}">注册</a>
+{% endif %}
+
+<p>{{ title }}</p>
+
+
+{% for activity in activities %}
+        <h2>{{ activity.title }}</h2>
+        <p>{{ activity.start_time }} | {{ activity.location }}</p>
+        <p>{{ activity.description }}</p>
+        {% if user.is_authenticated %}
+            <form action="{% url 'edit_activity' activity.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">编辑</button>
+            </form>
+            <form action="{% url 'delete_activity' activity.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">删除</button>
+            </form>
+        {% endif %}
+{% empty %}
+    <p>暂时还没有活动哦~</p>
+{% endfor %}
