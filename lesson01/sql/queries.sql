@@ -1,4 +1,6 @@
-SELECT title , stock FROM books WHERE stock = 0 ;
+USE bookshop ;
+SELECT title , stock FROM books
+   WHERE stock = 0 ;
 # 球状闪电 0 ,白夜行 0 
 #选择库存为0的书
 
